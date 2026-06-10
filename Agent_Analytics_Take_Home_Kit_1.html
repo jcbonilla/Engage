@@ -1,0 +1,1779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent Analytics — Take-Home Kit | Engage 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #143F2E;
+    --green-deep: #0E2E22;
+    --green-soft: #2A5946;
+    --orange: #E5532B;
+    --orange-soft: #F26E48;
+    --orange-wash: #FBE5DD;
+    --pink: #EDC5D2;
+    --pink-light: #F8E3EB;
+    --pink-wash: #FCEEF3;
+    --cream: #F5EFE3;
+    --cream-light: #FAF6ED;
+    --bone: #FBF8F1;
+    --ink: #1A1A1A;
+    --ink-soft: #3A3A3A;
+    --muted: #6B6B6B;
+    --line: #E0D9C6;
+    --shadow: 0 1px 3px rgba(20, 63, 46, 0.04), 0 4px 12px rgba(20, 63, 46, 0.06);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+
+  body {
+    background: var(--bone);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ============ TOP NAV (sticky) ============ */
+  .top-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(251, 248, 241, 0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .top-nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 14px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+  }
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--green);
+    letter-spacing: -0.01em;
+  }
+  .nav-brand .mark {
+    color: var(--orange);
+    font-style: italic;
+  }
+  .nav-links {
+    display: flex;
+    gap: 22px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    flex-wrap: wrap;
+  }
+  .nav-links a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .nav-links a:hover { color: var(--orange); }
+
+  /* ============ HERO ============ */
+  .hero {
+    background: var(--green);
+    color: var(--bone);
+    padding: 80px 32px 96px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--orange-soft);
+    margin-bottom: 28px;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    width: 32px;
+    height: 1px;
+    background: var(--orange-soft);
+  }
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 72px;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--bone);
+    margin-bottom: 28px;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--orange-soft);
+    font-weight: 400;
+  }
+  .hero-lede {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    line-height: 1.4;
+    color: var(--pink);
+    max-width: 740px;
+    margin-bottom: 36px;
+    font-weight: 400;
+  }
+  .hero-meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 32px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--pink);
+    padding-top: 28px;
+    border-top: 1px solid rgba(237, 197, 210, 0.25);
+  }
+  .hero-meta strong { color: var(--bone); font-weight: 500; }
+
+  /* Decorative bracket (pink) on the right */
+  .hero-bracket {
+    position: absolute;
+    right: -40px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 200px;
+    height: 380px;
+    border: 6px solid var(--pink);
+    border-left: none;
+    border-radius: 0 180px 180px 0;
+    opacity: 0.5;
+    z-index: 1;
+  }
+
+  /* ============ MAIN ============ */
+  main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 64px 32px 96px;
+  }
+
+  /* ============ QUICK START ============ */
+  .quick-start {
+    background: var(--cream);
+    border: 1px solid var(--line);
+    padding: 32px 36px;
+    margin-bottom: 80px;
+    position: relative;
+  }
+  .quick-start::before {
+    content: 'START HERE';
+    position: absolute;
+    top: 18px;
+    right: 28px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--orange);
+    font-weight: 500;
+  }
+  .quick-start h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 28px;
+    color: var(--green);
+    margin-bottom: 12px;
+    letter-spacing: -0.015em;
+  }
+  .quick-start p {
+    color: var(--ink-soft);
+    margin-bottom: 20px;
+    max-width: 760px;
+  }
+  .qs-steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 24px;
+  }
+  .qs-step {
+    background: var(--bone);
+    padding: 20px 22px;
+    border: 1px solid var(--line);
+  }
+  .qs-step .num {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 28px;
+    color: var(--orange);
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+  .qs-step h4 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 15px;
+    color: var(--green);
+    margin-bottom: 6px;
+  }
+  .qs-step p {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 0;
+    line-height: 1.5;
+  }
+
+  /* ============ SECTION ============ */
+  section.kit-section {
+    margin-bottom: 88px;
+    scroll-margin-top: 90px;
+  }
+  .section-head {
+    display: grid;
+    grid-template-columns: 70px 1fr;
+    gap: 24px;
+    align-items: baseline;
+    padding-bottom: 24px;
+    margin-bottom: 32px;
+    border-bottom: 1px solid var(--line);
+  }
+  .section-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--orange);
+    letter-spacing: 0.15em;
+    padding-top: 12px;
+  }
+  .section-head h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 40px;
+    line-height: 1.05;
+    color: var(--green);
+    letter-spacing: -0.02em;
+  }
+  .section-head h2 em {
+    font-style: italic;
+    color: var(--orange);
+    font-weight: 400;
+  }
+  .section-lede {
+    grid-column: 2;
+    font-size: 17px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+    margin-top: 8px;
+  }
+
+  /* ============ DATASET CARD ============ */
+  .dataset-card {
+    background: var(--bone);
+    border: 1px solid var(--line);
+    padding: 32px 36px;
+    margin-bottom: 24px;
+  }
+  .dataset-card h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 22px;
+    color: var(--green);
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+  .dataset-card .meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 18px;
+  }
+  .dataset-card p { color: var(--ink-soft); margin-bottom: 16px; }
+  .dataset-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--green);
+    color: var(--bone);
+    padding: 12px 22px;
+    text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: background 0.15s;
+  }
+  .dataset-link:hover { background: var(--orange); }
+  .dataset-link::after { content: '→'; font-size: 16px; }
+
+  .dataset-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    margin: 24px 0 16px;
+  }
+  .stat {
+    background: var(--bone);
+    padding: 18px 20px;
+  }
+  .stat .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 8px;
+  }
+  .stat .val {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 26px;
+    color: var(--green);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .stat .val small {
+    font-size: 13px;
+    color: var(--muted);
+    margin-left: 4px;
+    font-weight: 400;
+  }
+
+  /* Planted patterns callout */
+  .patterns {
+    background: var(--orange-wash);
+    border-left: 3px solid var(--orange);
+    padding: 22px 24px;
+    margin-top: 16px;
+  }
+  .patterns h4 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--orange);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    margin-bottom: 12px;
+  }
+  .patterns ol {
+    list-style: none;
+    counter-reset: pattern;
+  }
+  .patterns li {
+    counter-increment: pattern;
+    padding: 8px 0 8px 32px;
+    position: relative;
+    font-size: 14px;
+    color: var(--ink);
+  }
+  .patterns li::before {
+    content: counter(pattern, lower-roman) '.';
+    position: absolute;
+    left: 0;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: var(--orange);
+    font-weight: 500;
+    font-size: 15px;
+  }
+
+  /* ============ MODE CARDS ============ */
+  .modes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+  .mode-card {
+    background: var(--bone);
+    border: 1px solid var(--line);
+    overflow: hidden;
+  }
+  .mode-card .mode-head {
+    padding: 20px 24px 16px;
+    color: var(--bone);
+  }
+  .mode-card.quant .mode-head { background: var(--orange); }
+  .mode-card.thought .mode-head { background: #B33078; }
+  .mode-card.synth .mode-head { background: var(--green); }
+  .mode-card .mode-name {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 20px;
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+  }
+  .mode-card .mode-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    opacity: 0.85;
+  }
+  .mode-card .mode-body {
+    padding: 20px 24px 24px;
+  }
+  .mode-card .what {
+    font-size: 14px;
+    color: var(--ink);
+    line-height: 1.5;
+    margin-bottom: 14px;
+  }
+  .mode-card .when {
+    font-size: 13px;
+    color: var(--muted);
+    font-style: italic;
+    padding-top: 14px;
+    border-top: 1px dashed var(--line);
+  }
+
+  /* ============ PROMPT CARDS ============ */
+  .prompt-card {
+    background: var(--bone);
+    border: 1px solid var(--line);
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .prompt-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 20px;
+    background: var(--cream-light);
+    border-bottom: 1px solid var(--line);
+  }
+  .prompt-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--green);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-weight: 500;
+  }
+  .copy-btn {
+    background: transparent;
+    border: 1px solid var(--line);
+    padding: 6px 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    border-radius: 0;
+  }
+  .copy-btn:hover {
+    background: var(--green);
+    color: var(--bone);
+    border-color: var(--green);
+  }
+  .copy-btn.copied {
+    background: var(--orange);
+    color: var(--bone);
+    border-color: var(--orange);
+  }
+  .prompt-body {
+    padding: 18px 22px;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 15.5px;
+    color: var(--ink);
+    line-height: 1.55;
+  }
+  .prompt-note {
+    padding: 12px 22px 16px;
+    font-size: 12.5px;
+    color: var(--muted);
+    border-top: 1px dashed var(--line);
+    background: var(--cream-light);
+  }
+  .prompt-note strong { color: var(--green); font-weight: 600; }
+
+  /* ============ BLUEPRINT CARDS ============ */
+  .blueprint-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+  .bp-card {
+    background: var(--bone);
+    border: 1px solid var(--line);
+    padding: 24px 28px;
+  }
+  .bp-card-head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  .bp-card-num {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 36px;
+    color: var(--orange);
+    line-height: 1;
+  }
+  .bp-card-head h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 22px;
+    color: var(--green);
+    letter-spacing: -0.01em;
+  }
+  .bp-card-head h3 span {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-weight: 400;
+    margin-top: 2px;
+  }
+  .bp-card p { color: var(--ink-soft); margin-bottom: 12px; }
+  .bp-card ul {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 12px;
+  }
+  .bp-card ul li {
+    padding: 6px 0 6px 22px;
+    position: relative;
+    font-size: 14px;
+    color: var(--ink);
+  }
+  .bp-card ul li::before {
+    content: '▸';
+    position: absolute;
+    left: 4px;
+    color: var(--orange);
+    font-size: 14px;
+  }
+
+  /* Template block (code-like) */
+  .template-block {
+    background: var(--green);
+    color: var(--cream);
+    padding: 20px 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.65;
+    margin-top: 14px;
+    position: relative;
+    border-radius: 0;
+    white-space: pre-wrap;
+  }
+  .template-block .template-label {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    font-size: 9px;
+    color: var(--pink);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+  }
+  .template-block .field {
+    color: var(--orange-soft);
+    font-weight: 500;
+  }
+
+  /* Reusable prompts list */
+  .prompts-library {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-top: 16px;
+  }
+  .lib-prompt {
+    background: var(--cream-light);
+    padding: 14px 18px;
+    border: 1px solid var(--line);
+    font-size: 13.5px;
+    color: var(--ink);
+    line-height: 1.5;
+  }
+  .lib-prompt .lib-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--orange);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+
+  /* What to load / not to load */
+  .load-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 14px;
+  }
+  .load-col {
+    padding: 16px 18px;
+    border: 1px solid var(--line);
+  }
+  .load-col.safe {
+    background: rgba(45, 122, 95, 0.06);
+    border-color: rgba(45, 122, 95, 0.25);
+  }
+  .load-col.danger {
+    background: var(--orange-wash);
+    border-color: rgba(229, 83, 43, 0.3);
+  }
+  .load-col h5 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+  .load-col.safe h5 { color: #2D7A5F; }
+  .load-col.danger h5 { color: var(--orange); }
+  .load-col ul { list-style: none; padding-left: 0; }
+  .load-col ul li {
+    padding: 4px 0 4px 18px;
+    position: relative;
+    font-size: 13px;
+    color: var(--ink);
+  }
+  .load-col.safe ul li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: #2D7A5F;
+    font-weight: bold;
+  }
+  .load-col.danger ul li::before {
+    content: '✗';
+    position: absolute;
+    left: 0;
+    color: var(--orange);
+    font-weight: bold;
+  }
+
+  /* ============ AGENT BUILD PHASES ============ */
+  .phases {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .phase {
+    background: var(--bone);
+    border: 1px solid var(--line);
+    padding: 24px 28px;
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+  .phase-num {
+    text-align: center;
+  }
+  .phase-num .n {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 48px;
+    color: var(--orange);
+    line-height: 1;
+  }
+  .phase-num .time {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-top: 6px;
+    display: block;
+  }
+  .phase-body h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 20px;
+    color: var(--green);
+    margin-bottom: 10px;
+  }
+  .phase-body p {
+    color: var(--ink-soft);
+    margin-bottom: 12px;
+    font-size: 14.5px;
+  }
+
+  /* Agent instruction templates */
+  .agent-templates {
+    margin-top: 16px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+  }
+  .agent-tpl {
+    background: var(--cream-light);
+    border: 1px solid var(--line);
+    padding: 16px 18px;
+  }
+  .agent-tpl .agent-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+  .agent-tpl.quant .agent-name { color: var(--orange); }
+  .agent-tpl.thought .agent-name { color: #B33078; }
+  .agent-tpl.synth .agent-name { color: var(--green); }
+  .agent-tpl p {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+
+  /* ============ SKILLS ============ */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    margin-bottom: 24px;
+  }
+  .skill-card {
+    background: var(--bone);
+    border: 1px solid var(--line);
+    padding: 22px 24px;
+  }
+  .skill-card.universal {
+    background: var(--green);
+    color: var(--bone);
+    border-color: var(--green);
+  }
+  .skill-card .skill-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--orange);
+    margin-bottom: 8px;
+  }
+  .skill-card.universal .skill-tag { color: var(--pink); }
+  .skill-card h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 20px;
+    color: var(--green);
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+  }
+  .skill-card.universal h3 { color: var(--bone); }
+  .skill-card .skill-what {
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin-bottom: 12px;
+  }
+  .skill-card.universal .skill-what { color: rgba(251, 248, 241, 0.85); }
+  .skill-card h5 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    margin: 14px 0 8px;
+    font-weight: 600;
+  }
+  .skill-card.universal h5 { color: var(--orange-soft); }
+  .skill-card ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  .skill-card ul li {
+    padding: 4px 0 4px 18px;
+    position: relative;
+    font-size: 13px;
+    color: var(--ink);
+  }
+  .skill-card.universal ul li { color: rgba(251, 248, 241, 0.9); }
+  .skill-card ul li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--orange);
+    font-size: 12px;
+  }
+  .skill-card.universal ul li::before { color: var(--orange-soft); }
+  .skill-card .loaded-by {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--line);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .skill-card.universal .loaded-by {
+    border-top-color: rgba(237, 197, 210, 0.3);
+    color: var(--pink);
+  }
+  .skill-card .loaded-by strong { color: var(--ink); font-weight: 600; }
+  .skill-card.universal .loaded-by strong { color: var(--bone); }
+
+  /* ============ GOVERNANCE ============ */
+  .gov-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    margin-bottom: 24px;
+  }
+  .gov-card {
+    background: var(--bone);
+    border: 1px solid var(--line);
+    overflow: hidden;
+  }
+  .gov-head {
+    padding: 14px 22px;
+    color: var(--bone);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-weight: 600;
+  }
+  .gov-card.data .gov-head { background: var(--orange); }
+  .gov-card.scope .gov-head { background: #B33078; }
+  .gov-card.esc .gov-head { background: var(--green); }
+  .gov-card.audit .gov-head { background: var(--green-deep); }
+  .gov-body { padding: 18px 22px 22px; }
+  .gov-q {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 17px;
+    color: var(--green);
+    margin-bottom: 10px;
+  }
+  .gov-a {
+    font-size: 14px;
+    color: var(--ink);
+    line-height: 1.55;
+    margin-bottom: 12px;
+  }
+  .gov-ex {
+    font-size: 12.5px;
+    color: var(--muted);
+    font-style: italic;
+    padding-top: 12px;
+    border-top: 1px dashed var(--line);
+  }
+
+  /* ============ WEEK 1 PLAN ============ */
+  .week-plan {
+    background: var(--bone);
+    border: 1px solid var(--line);
+    overflow: hidden;
+  }
+  .week-row {
+    display: grid;
+    grid-template-columns: 140px 1fr 60px;
+    align-items: center;
+    gap: 24px;
+    padding: 18px 28px;
+    border-bottom: 1px solid var(--line);
+  }
+  .week-row:last-child { border-bottom: none; }
+  .week-day {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--bone);
+    padding: 8px 14px;
+    text-align: center;
+    font-weight: 600;
+  }
+  .week-day.mon { background: var(--orange); }
+  .week-day.tue { background: #B33078; }
+  .week-day.thu { background: var(--green); }
+  .week-day.fri { background: var(--green-deep); }
+  .week-day.next-mon { background: var(--orange); }
+  .week-task {
+    font-size: 15px;
+    color: var(--ink);
+    line-height: 1.5;
+  }
+  .week-task strong { color: var(--green); font-weight: 600; }
+  .week-check {
+    width: 28px;
+    height: 28px;
+    border: 2px solid var(--line);
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--orange);
+    transition: all 0.15s;
+    user-select: none;
+    font-weight: bold;
+  }
+  .week-check:hover {
+    border-color: var(--orange);
+  }
+  .week-check.checked {
+    background: var(--orange);
+    border-color: var(--orange);
+    color: var(--bone);
+  }
+  .week-check.checked::before {
+    content: '✓';
+  }
+
+  .closing-statement {
+    margin-top: 32px;
+    padding: 32px 40px;
+    background: var(--green);
+    color: var(--bone);
+    text-align: center;
+  }
+  .closing-statement p {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+  }
+  .closing-statement p:first-child {
+    color: var(--pink);
+    margin-bottom: 8px;
+    font-style: italic;
+  }
+  .closing-statement p:last-child { color: var(--bone); font-weight: 500; }
+
+  /* ============ RESOURCES ============ */
+  .resources {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .resource-card {
+    background: var(--bone);
+    border: 1px solid var(--line);
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.15s, transform 0.15s;
+  }
+  .resource-card:hover {
+    border-color: var(--orange);
+    transform: translateY(-2px);
+  }
+  .resource-card .res-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--orange);
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .resource-card h4 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 18px;
+    color: var(--green);
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+  }
+  .resource-card p {
+    font-size: 13.5px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* ============ FOOTER ============ */
+  footer {
+    background: var(--green-deep);
+    color: var(--pink);
+    padding: 48px 32px 36px;
+    margin-top: 60px;
+  }
+  .footer-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+  .footer-brand {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 18px;
+    color: var(--bone);
+    letter-spacing: -0.01em;
+  }
+  .footer-brand em { color: var(--orange-soft); font-style: italic; font-weight: 400; }
+  .footer-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--pink);
+    opacity: 0.75;
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 880px) {
+    .hero h1 { font-size: 48px; }
+    .hero-lede { font-size: 18px; }
+    .top-nav-inner { padding: 12px 20px; }
+    .nav-links { display: none; }
+    main { padding: 40px 20px 60px; }
+    .section-head { grid-template-columns: 1fr; gap: 8px; }
+    .section-head h2 { font-size: 30px; }
+    .qs-steps { grid-template-columns: 1fr; }
+    .modes-grid, .skills-grid, .gov-grid, .resources { grid-template-columns: 1fr; }
+    .dataset-stats { grid-template-columns: repeat(2, 1fr); }
+    .prompts-library { grid-template-columns: 1fr; }
+    .agent-templates { grid-template-columns: 1fr; }
+    .load-grid { grid-template-columns: 1fr; }
+    .phase { grid-template-columns: 1fr; }
+    .week-row { grid-template-columns: 120px 1fr 32px; gap: 16px; padding: 14px 18px; }
+  }
+
+  /* ============ PRINT ============ */
+  @media print {
+    body { background: white; }
+    .top-nav { display: none; }
+    .hero { background: white; color: var(--green); page-break-after: always; padding: 40px 0; }
+    .hero h1 { color: var(--green); font-size: 48px; }
+    .hero h1 em { color: var(--orange); }
+    .hero-lede { color: var(--ink-soft); }
+    .hero-bracket { display: none; }
+    .hero-meta { color: var(--muted); border-top-color: var(--line); }
+    .hero-meta strong { color: var(--green); }
+    section.kit-section { page-break-inside: avoid; }
+    .copy-btn { display: none; }
+    footer { background: white; color: var(--muted); border-top: 1px solid var(--line); }
+    .footer-brand { color: var(--green); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ TOP NAV ============ -->
+<nav class="top-nav">
+  <div class="top-nav-inner">
+    <div class="nav-brand">
+      <span class="mark">{E}26</span>
+      <span>Agent Analytics Kit</span>
+    </div>
+    <div class="nav-links">
+      <a href="#data">Data</a>
+      <a href="#prompts">Prompts</a>
+      <a href="#blueprint">Blueprint</a>
+      <a href="#cowork">Cowork</a>
+      <a href="#skills">Skills</a>
+      <a href="#governance">Governance</a>
+      <a href="#week1">Week 1</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="hero-bracket"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Take-Home Kit · Engage Summit 2026</div>
+    <h1>Agent Analytics<br><em>at your desk.</em></h1>
+    <p class="hero-lede">
+      You came in with one mind on staff. You're leaving with three.
+      Here's everything you need to put them to work this week — the dataset,
+      the prompts, the blueprint, the skills, and a Friday deadline.
+    </p>
+    <div class="hero-meta">
+      <span><strong>Session:</strong> Agent Analytics</span>
+      <span><strong>Day:</strong> Professional Development · June 15</span>
+      <span><strong>Owner:</strong> JC Bonilla</span>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- ============ QUICK START ============ -->
+  <div class="quick-start">
+    <h2>Start here, Monday morning.</h2>
+    <p>You don't need to read this whole kit before you start. Three actions get the flywheel turning.</p>
+    <div class="qs-steps">
+      <div class="qs-step">
+        <div class="num">i.</div>
+        <h4>Open Claude</h4>
+        <p>claude.ai · use the credentials from your activation email.</p>
+      </div>
+      <div class="qs-step">
+        <div class="num">ii.</div>
+        <h4>Create a Project</h4>
+        <p>Use the blueprint in Section 4. Load the dataset from Section 2.</p>
+      </div>
+      <div class="qs-step">
+        <div class="num">iii.</div>
+        <h4>Run the three modes</h4>
+        <p>Quant → Thought Partner → Synthesizer. On one real question from your desk.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SECTION 1: THE PATTERN ============ -->
+  <section class="kit-section" id="pattern">
+    <div class="section-head">
+      <div class="section-num">01</div>
+      <div>
+        <h2>The pattern, <em>in one image.</em></h2>
+        <p class="section-lede">Every analysis you run today uses the same three moves. Master the loop, the prompts get easier.</p>
+      </div>
+    </div>
+
+    <div class="modes-grid">
+      <div class="mode-card quant">
+        <div class="mode-head">
+          <div class="mode-name">Quant Analyst</div>
+          <div class="mode-tag">What changed and where?</div>
+        </div>
+        <div class="mode-body">
+          <div class="what">Crunches the numbers. Finds the pattern. Doesn't theorize yet.</div>
+          <div class="when">Use first. Establish what's true before deciding what it means.</div>
+        </div>
+      </div>
+      <div class="mode-card thought">
+        <div class="mode-head">
+          <div class="mode-name">Thought Partner</div>
+          <div class="mode-tag">What else could explain this?</div>
+        </div>
+        <div class="mode-body">
+          <div class="what">Slows you down. Generates competing hypotheses. Names what to rule in or out.</div>
+          <div class="when">Use second. Before any meaningful intervention or budget commitment.</div>
+        </div>
+      </div>
+      <div class="mode-card synth">
+        <div class="mode-head">
+          <div class="mode-name">Synthesizer</div>
+          <div class="mode-tag">Tell the right person, the right way.</div>
+        </div>
+        <div class="mode-body">
+          <div class="what">Packages the analysis. Drafts the memo, the email, the board update.</div>
+          <div class="when">Use third. Name the audience and the shape. Quality follows.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 2: DATASET ============ -->
+  <section class="kit-section" id="data">
+    <div class="section-head">
+      <div class="section-num">02</div>
+      <div>
+        <h2>The dataset: <em>Momentum College.</em></h2>
+        <p class="section-lede">A fictional hybrid institution in North Carolina, serving both traditional and adult/transfer students. Use it during the session and after.</p>
+      </div>
+    </div>
+
+    <div class="dataset-card">
+      <h3>Momentum College — FY25 & FY26 Admissions & Enrollment</h3>
+      <div class="meta">Student-level · 32,500 rows · Two tracks · Two fiscal years</div>
+      <p>
+        Each row is one prospective student. The dataset covers inquiry through fall enrollment plus first-year persistence outcomes.
+        Linked by <code>student_id</code> across both tracks (Traditional and Adult/Transfer) so you can cut the data any direction.
+      </p>
+
+      <a href="https://docs.google.com/spreadsheets/d/1Xw44-eYR6Tl_fjsqjHEQmAeNJVtLrYUb1ZYyI-2NOzY/edit" class="dataset-link" target="_blank">
+        Open the dataset in Google Sheets
+      </a>
+
+      <div class="dataset-stats">
+        <div class="stat">
+          <div class="label">Rows</div>
+          <div class="val">32,500</div>
+        </div>
+        <div class="stat">
+          <div class="label">Columns</div>
+          <div class="val">34</div>
+        </div>
+        <div class="stat">
+          <div class="label">Tracks</div>
+          <div class="val">2 <small>traditional + adult</small></div>
+        </div>
+        <div class="stat">
+          <div class="label">Cycles</div>
+          <div class="val">2 <small>FY25 + FY26</small></div>
+        </div>
+      </div>
+
+      <div class="patterns">
+        <h4>Planted patterns to find</h4>
+        <ol>
+          <li><strong>Traditional Track yield drop.</strong> Yield falls ~4 points FY25→FY26. The drop concentrates in <code>out_of_state_merit</code>, where summer melt jumps from ~14% to ~29%. The outreach data shows why.</li>
+          <li><strong>Adult Track employer-driven stop-out.</strong> First-term stop-out climbs in the <code>employer_sponsored</code> segment. Cut by employer, the story is one company (Carolina Health Network) reducing tuition benefits mid-year.</li>
+          <li><strong>Cross-track equity gap.</strong> First-gen Pell-eligible students in STEM programs complete year one at ~48% versus ~81% institution-wide. A longstanding pattern, not a year-over-year change.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 3: PROMPTS ============ -->
+  <section class="kit-section" id="prompts">
+    <div class="section-head">
+      <div class="section-num">03</div>
+      <div>
+        <h2>The prompt library, <em>copy-ready.</em></h2>
+        <p class="section-lede">Adapt these to your data and your questions. The pattern matters more than the words.</p>
+      </div>
+    </div>
+
+    <h3 style="font-family: 'Fraunces', serif; font-weight: 500; font-size: 22px; color: var(--green); margin-bottom: 16px; letter-spacing: -0.01em;">The three-mode scaffold</h3>
+
+    <div class="prompt-card">
+      <div class="prompt-header">
+        <span class="prompt-label">▸ Quant Analyst</span>
+        <button class="copy-btn" onclick="copyText(this, 'p1')">Copy</button>
+      </div>
+      <div class="prompt-body" id="p1">"Look at the [TRACK/SEGMENT] data I loaded. Compare [METRIC] by [DIMENSION] and year. Where in the funnel did the change happen? Show me absolute numbers and percentages. Don't theorize yet."</div>
+      <div class="prompt-note"><strong>Why this works:</strong> Names the scope, names the metric, asks for both raw and rate, and explicitly tells Claude not to jump ahead.</div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-header">
+        <span class="prompt-label">▸ Thought Partner</span>
+        <button class="copy-btn" onclick="copyText(this, 'p2')">Copy</button>
+      </div>
+      <div class="prompt-body" id="p2">"Before I act, give me three competing hypotheses for what's driving this. Rank them by how well the data supports each one, and tell me what evidence would rule each one in or out. Be honest if one should be rejected."</div>
+      <div class="prompt-note"><strong>Why this works:</strong> "Compete with me" framing. The "rule in or out" language forces specific evidence. Permission to reject one keeps Claude honest.</div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-header">
+        <span class="prompt-label">▸ Synthesizer</span>
+        <button class="copy-btn" onclick="copyText(this, 'p3')">Copy</button>
+      </div>
+      <div class="prompt-body" id="p3">"Draft a one-page memo to [AUDIENCE]. Include: the headline finding, the segment driving it, the leading hypothesis with supporting evidence, and two recommended interventions. Match the tone of [REFERENCE: prior briefs, board memos]."</div>
+      <div class="prompt-note"><strong>Why this works:</strong> Audience + shape = output quality. Without these two anchors, you get a wall of text.</div>
+    </div>
+
+    <h3 style="font-family: 'Fraunces', serif; font-weight: 500; font-size: 22px; color: var(--green); margin: 36px 0 16px; letter-spacing: -0.01em;">Advanced Quant moves</h3>
+
+    <div class="prompt-card">
+      <div class="prompt-header">
+        <span class="prompt-label">▸ Funnel Visualization</span>
+        <button class="copy-btn" onclick="copyText(this, 'p4')">Copy</button>
+      </div>
+      <div class="prompt-body" id="p4">"Build me a side-by-side visualization of the [SEGMENT/TRACK] funnel for FY25 versus FY26. Show inquiry → application → enrollment, with both absolute numbers and the conversion rate at each stage. Make the year-over-year drops easy to see at a glance, and call out which stage lost the most students."</div>
+      <div class="prompt-note"><strong>When to use:</strong> Before segment analysis. Establishes the shape of the problem at a 30,000-foot view.</div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-header">
+        <span class="prompt-label">▸ Executive Dashboard</span>
+        <button class="copy-btn" onclick="copyText(this, 'p5')">Copy</button>
+      </div>
+      <div class="prompt-body" id="p5">"Stay in the [SEGMENT] segment. Build me an executive dashboard, as a single HTML artifact, showing what's driving the [METRIC] change. Include: a quadrant scatter mapping each [DIMENSION]'s X-change against Y-change with bubble size for volume; a ranked bar chart of the YoY delta; a KPI strip calling out the standout; the underlying data table beneath. Brand it [YOUR COLORS]. Executive-ready. One screen."</div>
+      <div class="prompt-note"><strong>When to use:</strong> When you need a defensible briefing artifact for a cabinet or board conversation, not just an answer.</div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-header">
+        <span class="prompt-label">▸ Drill-Down Stratification</span>
+        <button class="copy-btn" onclick="copyText(this, 'p6')">Copy</button>
+      </div>
+      <div class="prompt-body" id="p6">"Stay in the [SEGMENT] segment. Give me a clean table broken out by [SUB-DIMENSION]. For each one, show FY25 and FY26 counts, the key metric, and the change. Sort by absolute change. Flag any row where the change crosses [THRESHOLD]."</div>
+      <div class="prompt-note"><strong>When to use:</strong> When a segment moves and you suspect the story is hiding one level deeper. Stratification reveals what aggregation conceals.</div>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 4: PROJECT BLUEPRINT ============ -->
+  <section class="kit-section" id="blueprint">
+    <div class="section-head">
+      <div class="section-num">04</div>
+      <div>
+        <h2>The Project blueprint, <em>four pieces.</em></h2>
+        <p class="section-lede">Don't build the perfect Project. Build the smallest useful one this week, then grow it.</p>
+      </div>
+    </div>
+
+    <div class="blueprint-grid">
+      <div class="bp-card">
+        <div class="bp-card-head">
+          <div class="bp-card-num">i.</div>
+          <h3>System prompt <span>Role · institution · decision style</span></h3>
+        </div>
+        <p>Tell Claude who it is, what it's for, and how you make decisions. Three to five paragraphs. This is the most important piece — get it right and every prompt gets sharper.</p>
+
+        <div class="template-block">
+<span class="template-label">TEMPLATE</span>You are the <span class="field">[ROLE: e.g., Enrollment Analyst]</span> for <span class="field">[INSTITUTION NAME]</span>, a <span class="field">[INSTITUTION TYPE: e.g., regional comprehensive serving 12,000 students across traditional and adult tracks]</span>.
+
+Your job is to help <span class="field">[PRIMARY USER: e.g., the VP of Enrollment Management and the President]</span> make defensible decisions about <span class="field">[DECISION DOMAIN: e.g., recruitment strategy, yield interventions, student success investments]</span>.
+
+When you analyze our data, work in three modes:
+  • Quant — establish what's true before interpreting
+  • Thought Partner — generate competing hypotheses, rank by evidence, honestly reject weak ones
+  • Synthesizer — package findings for the named audience in the shape requested
+
+Our decision-making style is <span class="field">[e.g., evidence-based, with a bias toward small reversible interventions over large irreversible ones; we prefer specific recommendations with owners and dollar costs]</span>.
+
+Tone: <span class="field">[e.g., direct, concise, no hedging unless evidence is genuinely mixed]</span>.
+
+Confidentiality: <span class="field">[any institutional norms about what stays internal]</span>.</div>
+      </div>
+
+      <div class="bp-card">
+        <div class="bp-card-head">
+          <div class="bp-card-num">ii.</div>
+          <h3>Knowledge files <span>What to load, what to keep out</span></h3>
+        </div>
+        <p>The Project is only as good as what it knows. Load what helps. Keep out what shouldn't be there.</p>
+
+        <div class="load-grid">
+          <div class="load-col safe">
+            <h5>Safe to load</h5>
+            <ul>
+              <li>Aggregate funnel data (no PII)</li>
+              <li>De-identified persistence data</li>
+              <li>Strategic plan, board reports, IPEDS pulls</li>
+              <li>Internal frameworks, rubrics, memos</li>
+              <li>Past Claude outputs you want to build on</li>
+              <li>Prior briefs (for voice/format matching)</li>
+            </ul>
+          </div>
+          <div class="load-col danger">
+            <h5>Do not load</h5>
+            <ul>
+              <li>Student-level data with identifiers</li>
+              <li>Financial aid awards tied to identities</li>
+              <li>Disciplinary, medical, counseling records</li>
+              <li>Anything FERPA-protected</li>
+              <li>Anything you wouldn't email unencrypted</li>
+            </ul>
+          </div>
+        </div>
+
+        <p style="margin-top: 16px; font-size: 13px; color: var(--muted); font-style: italic;">
+          <strong style="color: var(--green); font-style: normal;">Rule of thumb:</strong> aggregate first, then load. You almost never need student-level data to answer the institutional question.
+        </p>
+      </div>
+
+      <div class="bp-card">
+        <div class="bp-card-head">
+          <div class="bp-card-num">iii.</div>
+          <h3>Reusable prompts <span>Your saved moves</span></h3>
+        </div>
+        <p>Save the prompts you'll run over and over. Five to start. Twenty by end of quarter.</p>
+
+        <div class="prompts-library">
+          <div class="lib-prompt">
+            <span class="lib-tag">Weekly funnel check</span>
+            "Compare this week's inquiry-to-deposit funnel against last year's same week. Flag any segment outside its normal range."
+          </div>
+          <div class="lib-prompt">
+            <span class="lib-tag">Segment deep-dive</span>
+            "Pull everything we know about [SEGMENT] in the last cycle. Profile, performance, persistence. What stands out?"
+          </div>
+          <div class="lib-prompt">
+            <span class="lib-tag">Board prep</span>
+            "Draft three slide bullets for the board on [TOPIC]. Headline, root cause, recommended action. Under 20 words each."
+          </div>
+          <div class="lib-prompt">
+            <span class="lib-tag">Hypothesis stress-test</span>
+            "I'm about to commit to [DECISION]. Give me three reasons this could be wrong, ranked by likelihood."
+          </div>
+          <div class="lib-prompt">
+            <span class="lib-tag">Memo draft</span>
+            "Draft a one-page memo to [AUDIENCE] on [TOPIC]. Match the format of the last three briefs you've seen."
+          </div>
+          <div class="lib-prompt">
+            <span class="lib-tag">Peer comparison</span>
+            "Compare our [METRIC] against IPEDS peers in our Carnegie classification. Where do we stand?"
+          </div>
+          <div class="lib-prompt">
+            <span class="lib-tag">Early warning</span>
+            "Run the persistence model on this term's cohort. Which students would I want a faculty advisor to touch this week?"
+          </div>
+          <div class="lib-prompt">
+            <span class="lib-tag">Decision pre-mortem</span>
+            "Imagine it's six months from now and [DECISION] failed. Walk me through the most likely failure modes."
+          </div>
+        </div>
+      </div>
+
+      <div class="bp-card">
+        <div class="bp-card-head">
+          <div class="bp-card-num">iv.</div>
+          <h3>Governance notes <span>Access · review · audit</span></h3>
+        </div>
+        <p>Write down who can use this Project, what gets reviewed before sharing, and where outputs go.</p>
+
+        <ul>
+          <li><strong>Access:</strong> Who can open this Project? Default to you + one delegate this week.</li>
+          <li><strong>Review:</strong> What gets human eyes before it leaves the building? Anything going to cabinet, board, or external audiences.</li>
+          <li><strong>Outputs:</strong> Where do drafts live? Drafts folder. Where do final versions land? Your sent items, shared drive, or team channel.</li>
+          <li><strong>Audit:</strong> Keep a log of which decisions used Claude outputs. You'll want this for Year 2.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 5: COWORK BUILD ============ -->
+  <section class="kit-section" id="cowork">
+    <div class="section-head">
+      <div class="section-num">05</div>
+      <div>
+        <h2>The agent build recipe, <em>in Cowork.</em></h2>
+        <p class="section-lede">Turn your analyst Project into an agent that runs on schedule. Twelve minutes, four phases.</p>
+      </div>
+    </div>
+
+    <div class="phases">
+
+      <div class="phase">
+        <div class="phase-num">
+          <div class="n">1</div>
+          <span class="time">2 min</span>
+        </div>
+        <div class="phase-body">
+          <h3>Connect the workspace</h3>
+          <p>Define what Cowork can see and touch.</p>
+          <ul style="list-style: none; padding: 0;">
+            <li style="padding: 4px 0 4px 18px; position: relative; font-size: 14px;"><span style="position: absolute; left: 0; color: var(--orange); font-weight: bold;">▸</span> Read access to the data folder</li>
+            <li style="padding: 4px 0 4px 18px; position: relative; font-size: 14px;"><span style="position: absolute; left: 0; color: var(--orange); font-weight: bold;">▸</span> Write access to a /drafts folder</li>
+            <li style="padding: 4px 0 4px 18px; position: relative; font-size: 14px;"><span style="position: absolute; left: 0; color: var(--orange); font-weight: bold;">▸</span> Send access to one email address, gated by owner approval</li>
+            <li style="padding: 4px 0 4px 18px; position: relative; font-size: 14px;"><span style="position: absolute; left: 0; color: var(--orange); font-weight: bold;">▸</span> Reference: last 4 weeks of briefs so the agent learns your voice</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-num">
+          <div class="n">2</div>
+          <span class="time">4 min</span>
+        </div>
+        <div class="phase-body">
+          <h3>Configure the three agents</h3>
+          <p>One Project becomes one agent. Three Projects, three agents, plain-English instructions.</p>
+
+          <div class="agent-templates">
+            <div class="agent-tpl quant">
+              <div class="agent-name">▸ Quant Agent</div>
+              <p>"Every morning at 8am, read the latest dataset. Compute the seven KPIs we track. Flag anything that has moved more than its threshold. Write the result to /drafts/quant.md."</p>
+            </div>
+            <div class="agent-tpl thought">
+              <div class="agent-name">▸ Thought Partner Agent</div>
+              <p>"After the Quant Agent finishes, read its output. For each flag, generate one alternative explanation and one thing we'd want to rule out. Write to /drafts/thought-partner.md."</p>
+            </div>
+            <div class="agent-tpl synth">
+              <div class="agent-name">▸ Synthesizer Agent</div>
+              <p>"After the Thought Partner Agent finishes, read both prior outputs. Draft a one-page cabinet brief in our voice. Match the format of the last four briefs. Write to /drafts/cabinet-brief.md."</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-num">
+          <div class="n">3</div>
+          <span class="time">3 min</span>
+        </div>
+        <div class="phase-body">
+          <h3>Orchestrate the handoff</h3>
+          <p>One sentence in plain English connects all three agents.</p>
+          <div class="template-block" style="margin-top: 14px;">
+<span class="template-label">ORCHESTRATION</span>"Run Quant. When done, run Thought Partner. When done, run Synthesizer. When done, draft the email and wait for me."</div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-num">
+          <div class="n">4</div>
+          <span class="time">2 min</span>
+        </div>
+        <div class="phase-body">
+          <h3>Set trigger, surface, scope</h3>
+          <p>The three decisions that determine when, where, and how much autonomy.</p>
+          <ul style="list-style: none; padding: 0;">
+            <li style="padding: 4px 0 4px 18px; position: relative; font-size: 14px;"><span style="position: absolute; left: 0; color: var(--orange); font-weight: bold;">▸</span> <strong style="color: var(--green);">Trigger:</strong> every weekday at 8:00am sharp; skip days with no cabinet meeting</li>
+            <li style="padding: 4px 0 4px 18px; position: relative; font-size: 14px;"><span style="position: absolute; left: 0; color: var(--orange); font-weight: bold;">▸</span> <strong style="color: var(--green);">Surface:</strong> draft email to the cabinet listserv, subject "Cabinet Brief, [date]"</li>
+            <li style="padding: 4px 0 4px 18px; position: relative; font-size: 14px;"><span style="position: absolute; left: 0; color: var(--orange); font-weight: bold;">▸</span> <strong style="color: var(--green);">Scope:</strong> agent can do everything except hit send; wait for owner approval</li>
+            <li style="padding: 4px 0 4px 18px; position: relative; font-size: 14px;"><span style="position: absolute; left: 0; color: var(--orange); font-weight: bold;">▸</span> <strong style="color: var(--green);">Check-in:</strong> if not reviewed by 8:45am, send a reminder, never the brief</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 6: SKILLS ============ -->
+  <section class="kit-section" id="skills">
+    <div class="section-head">
+      <div class="section-num">06</div>
+      <div>
+        <h2>The skills starter pack, <em>build once, reuse forever.</em></h2>
+        <p class="section-lede">A skill is a packaged capability. Build five, you've encoded the way your institution works.</p>
+      </div>
+    </div>
+
+    <div class="skills-grid">
+
+      <div class="skill-card">
+        <div class="skill-tag">Skill · 01</div>
+        <h3>Cabinet Brief</h3>
+        <div class="skill-what">Your institutional voice and format, encoded so any agent produces briefs at your cabinet's standard.</div>
+        <h5>What it should contain</h5>
+        <ul>
+          <li>Section structure (headline, KPIs, finding, action)</li>
+          <li>Word count per section</li>
+          <li>Tone rules (formal, no jargon, present tense)</li>
+          <li>Three example briefs as voice references</li>
+        </ul>
+        <div class="loaded-by">Loaded by: <strong>Synthesizer Agent</strong></div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-tag">Skill · 02</div>
+        <h3>Yield Diagnostic</h3>
+        <div class="skill-what">The seven KPIs that matter, the segments to cut by, and the thresholds that warrant a flag.</div>
+        <h5>What it should contain</h5>
+        <ul>
+          <li>The KPI definitions (formula + denominator)</li>
+          <li>Segment taxonomy (your specific cuts)</li>
+          <li>Year-over-year and term-over-term thresholds</li>
+          <li>"What good looks like" reference</li>
+        </ul>
+        <div class="loaded-by">Loaded by: <strong>Quant Agent</strong></div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-tag">Skill · 03</div>
+        <h3>Hypothesis Stress-Test</h3>
+        <div class="skill-what">The structured pressure-test routine: name three competitors, rank by evidence, name what would falsify each.</div>
+        <h5>What it should contain</h5>
+        <ul>
+          <li>The three-question framework</li>
+          <li>Evidence ranking rubric</li>
+          <li>Examples of well-rejected hypotheses</li>
+          <li>Common cognitive bias prompts</li>
+        </ul>
+        <div class="loaded-by">Loaded by: <strong>Thought Partner Agent</strong></div>
+      </div>
+
+      <div class="skill-card universal">
+        <div class="skill-tag">Skill · 04 · Universal</div>
+        <h3>FERPA-Safe Analysis</h3>
+        <div class="skill-what">What to aggregate, what to redact, what to never surface. The compliance layer every agent inherits automatically.</div>
+        <h5>What it should contain</h5>
+        <ul>
+          <li>Field-level redaction rules</li>
+          <li>Minimum aggregation thresholds (n ≥ 10, etc.)</li>
+          <li>What can leave the institution vs. internal only</li>
+          <li>The "would you email this unencrypted?" test</li>
+        </ul>
+        <div class="loaded-by">Loaded by: <strong>Every agent</strong></div>
+      </div>
+    </div>
+
+    <div style="background: var(--pink-light); padding: 22px 28px; margin-top: 8px;">
+      <p style="font-family: 'Fraunces', serif; font-style: italic; font-size: 16px; color: var(--green); margin: 0;">
+        <strong style="font-style: normal; font-weight: 600;">The compounding move.</strong>
+        Build one skill: every agent on your team can use it.
+        Build five: you've encoded your institution's way of working.
+        Build twenty: new leaders inherit your institutional muscle memory on day one.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 7: GOVERNANCE ============ -->
+  <section class="kit-section" id="governance">
+    <div class="section-head">
+      <div class="section-num">07</div>
+      <div>
+        <h2>Governance, <em>the four questions.</em></h2>
+        <p class="section-lede">An analyst makes a mistake in a chat window. An agent makes a mistake in front of your board. Answer these four at design time, not after.</p>
+      </div>
+    </div>
+
+    <div class="gov-grid">
+      <div class="gov-card data">
+        <div class="gov-head">▸ Data</div>
+        <div class="gov-body">
+          <div class="gov-q">What can it see?</div>
+          <div class="gov-a">Aggregate only. No PII. No FERPA-protected records.</div>
+          <div class="gov-ex">e.g., Cabinet Brief Agent reads de-identified funnel and persistence summaries, never individual student files.</div>
+        </div>
+      </div>
+
+      <div class="gov-card scope">
+        <div class="gov-head">▸ Scope</div>
+        <div class="gov-body">
+          <div class="gov-q">What can it do?</div>
+          <div class="gov-a">Read, analyze, draft. Never send, post, or commit without approval.</div>
+          <div class="gov-ex">e.g., The Cabinet Brief Agent drafts the email but cannot click send until you review and approve.</div>
+        </div>
+      </div>
+
+      <div class="gov-card esc">
+        <div class="gov-head">▸ Escalation</div>
+        <div class="gov-body">
+          <div class="gov-q">When does a human get involved?</div>
+          <div class="gov-a">Anything material gets routed to the owner before it goes out.</div>
+          <div class="gov-ex">e.g., If a flag exceeds 2× normal threshold, the agent pings you on Slack before drafting anything.</div>
+        </div>
+      </div>
+
+      <div class="gov-card audit">
+        <div class="gov-head">▸ Audit</div>
+        <div class="gov-body">
+          <div class="gov-q">Can we see what it did?</div>
+          <div class="gov-a">Log every run. Every output. Every decision the agent made.</div>
+          <div class="gov-ex">e.g., All briefs archived to a dated folder; runs that produced no output also logged.</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background: var(--cream); border: 1px solid var(--line); padding: 24px 28px; margin-top: 24px;">
+      <p style="font-family: 'Fraunces', serif; font-style: italic; font-size: 18px; color: var(--green); margin: 0; text-align: center;">
+        <strong style="font-style: normal;">Governance isn't a brake on the agentic move.</strong>
+        It's what makes the agentic move possible.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 8: WEEK 1 ============ -->
+  <section class="kit-section" id="week1">
+    <div class="section-head">
+      <div class="section-num">08</div>
+      <div>
+        <h2>Your Week 1 plan, <em>three on staff by Friday.</em></h2>
+        <p class="section-lede">Resist the urge to plan, convene, charter, or pilot. Just do this week. Check the boxes as you go.</p>
+      </div>
+    </div>
+
+    <div class="week-plan">
+      <div class="week-row">
+        <div class="week-day mon">MON</div>
+        <div class="week-task">Build the <strong>three Projects</strong> (Quant, Thought Partner, Synthesizer). Use the blueprint in Section 4. Load the dataset.</div>
+        <div class="week-check" onclick="this.classList.toggle('checked')"></div>
+      </div>
+      <div class="week-row">
+        <div class="week-day tue">TUE / WED</div>
+        <div class="week-task">Use them as <strong>analysts on one real question</strong> from your desk. Run the three-mode pattern end to end.</div>
+        <div class="week-check" onclick="this.classList.toggle('checked')"></div>
+      </div>
+      <div class="week-row">
+        <div class="week-day thu">THU</div>
+        <div class="week-task"><strong>Pick one Project to evolve</strong> into an agent. Identify one skill you'd want every future agent to inherit.</div>
+        <div class="week-check" onclick="this.classList.toggle('checked')"></div>
+      </div>
+      <div class="week-row">
+        <div class="week-day fri">FRI</div>
+        <div class="week-task">Add <strong>trigger, surface, scope</strong>. Your first agent is live. Pre-stage Monday's run and confirm the draft pipeline works.</div>
+        <div class="week-check" onclick="this.classList.toggle('checked')"></div>
+      </div>
+      <div class="week-row">
+        <div class="week-day next-mon">NEXT MON 8AM</div>
+        <div class="week-task">Your <strong>first brief lands in your inbox.</strong> Review, approve, send. Cabinet walks in pre-briefed.</div>
+        <div class="week-check" onclick="this.classList.toggle('checked')"></div>
+      </div>
+    </div>
+
+    <div class="closing-statement">
+      <p>You came in with one mind on staff. Yours.</p>
+      <p>You leave with three minds on staff. Yours and theirs.</p>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 9: RESOURCES ============ -->
+  <section class="kit-section" id="resources">
+    <div class="section-head">
+      <div class="section-num">09</div>
+      <div>
+        <h2>Resources <em>& references.</em></h2>
+      </div>
+    </div>
+
+    <div class="resources">
+      <a href="https://docs.google.com/spreadsheets/d/1Xw44-eYR6Tl_fjsqjHEQmAeNJVtLrYUb1ZYyI-2NOzY/edit" class="resource-card" target="_blank">
+        <div class="res-tag">Dataset</div>
+        <h4>Momentum College, FY25 & FY26</h4>
+        <p>The full student-level dataset on Google Sheets. Open access to session participants.</p>
+      </a>
+      <a href="https://claude.ai" class="resource-card" target="_blank">
+        <div class="res-tag">Tool</div>
+        <h4>Claude.ai</h4>
+        <p>Sign in with your activation credentials. Build your first Project there.</p>
+      </a>
+      <a href="#" class="resource-card">
+        <div class="res-tag">Reference</div>
+        <h4>BI Showcase Artifact</h4>
+        <p>The finished employer-sponsored dashboard from the live demo. Inspect, copy, adapt.</p>
+      </a>
+      <a href="mailto:jc@element451.com" class="resource-card">
+        <div class="res-tag">Contact</div>
+        <h4>JC Bonilla · Element451</h4>
+        <p>Reach out for follow-up questions, deeper conversations, or implementation help.</p>
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">Engage Summit <em>2026</em> · Agent Analytics</div>
+    <div class="footer-meta">© 2026 Element451 · Proprietary & Confidential</div>
+  </div>
+</footer>
+
+<script>
+function copyText(btn, targetId) {
+  const text = document.getElementById(targetId).innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const original = btn.innerText;
+    btn.innerText = 'Copied ✓';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.innerText = original;
+      btn.classList.remove('copied');
+    }, 1800);
+  }).catch(err => {
+    btn.innerText = 'Press ⌘+C';
+    setTimeout(() => { btn.innerText = 'Copy'; }, 1800);
+  });
+}
+</script>
+
+</body>
+</html>
